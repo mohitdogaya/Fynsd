@@ -54,7 +54,7 @@ export default function UserLogin() {
 
   // Google Login handler
   const handleGoogleLogin = () => {
-    window.location.href = "https://fynsd-backend.vercel.app/api/auth/google"; 
+    window.location.href = "https://fynsd-backend.vercel.app/auth/google"; 
     // 👆 Backend server ka URL (yaha Google auth start hoga)
   };
 

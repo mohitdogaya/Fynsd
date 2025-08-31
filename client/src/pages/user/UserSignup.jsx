@@ -138,7 +138,7 @@ export default function UserSignup() {
           {/* Google Button */}
 <button
   onClick={() => {
-    window.location.href = "https://fynsd-backend.vercel.app/api/auth/google"; // backend ka route
+    window.location.href = "https://fynsd-backend.vercel.app/auth/google"; // backend ka route
   }}
   className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 text-gray-700 font-medium py-3 rounded-xl shadow-md hover:bg-gray-50 transition"
 >
