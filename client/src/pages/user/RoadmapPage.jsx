@@ -8,7 +8,7 @@ function RoadmapPage() {
   useEffect(() => {
     const fetchRoadmaps = async () => {
       try {
-        const res = await fetch("http://localhost:4000/api/roadmaps");
+        const res = await fetch("https://fynsd-backend.vercel.app/api/roadmaps");
         const data = await res.json();
         setRoadmaps(data);
       } catch (error) {
