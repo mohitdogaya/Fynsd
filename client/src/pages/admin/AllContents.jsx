@@ -12,9 +12,11 @@ import {
   Star,
   Eye,
 } from "lucide-react";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function AllContents() {
   const [contents, setContents] = useState([]);
+  const [deleteId, setDeleteId] = useState(null); // For modal
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,25 +37,30 @@ export default function AllContents() {
       } catch (err) {
         console.error(err);
         setContents([]);
+        toast.error("Failed to load contents");
       }
     })();
   }, [navigate]);
 
   const handleDelete = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this content?")) return;
     try {
-      await api.delete(`/admin/content/${id}`);
+      await api.delete(`/admin/contents/content/${id}`);
       setContents(contents.filter((c) => c._id !== id));
-      alert("Content deleted successfully");
+      toast.success("Content deleted successfully");
     } catch (err) {
       console.error(err);
-      alert("Failed to delete content");
+      toast.error("Failed to delete content");
+    } finally {
+      setDeleteId(null);
     }
   };
 
   return (
     <div className="min-h-screen w-full relative text-[#2F3E46]">
-      {/* Background same as Home.jsx */}
+      {/* Toast */}
+      <Toaster position="top-right" />
+
+      {/* Background */}
       <div
         className="absolute inset-0 z-0"
         style={{
@@ -173,7 +180,7 @@ export default function AllContents() {
                       <Edit3 size={16} /> Edit
                     </Link>
                     <button
-                      onClick={() => handleDelete(it._id)}
+                      onClick={() => setDeleteId(it._id)}
                       className="text-red-500 hover:text-red-600 flex items-center gap-1 text-sm"
                     >
                       <Trash2 size={16} /> Delete
@@ -189,6 +196,35 @@ export default function AllContents() {
           )}
         </div>
       </div>
+
+      {/* Delete Modal */}
+      {deleteId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+          <div className="bg-white rounded-2xl shadow-lg max-w-sm w-full p-6">
+            <h2 className="text-lg font-semibold text-[#2F3E46] mb-2">
+              Confirm Delete
+            </h2>
+            <p className="text-sm text-gray-600 mb-6">
+              Are you sure you want to delete this content? This action cannot
+              be undone.
+            </p>
+            <div className="flex justify-end gap-3">
+              <button
+                onClick={() => setDeleteId(null)}
+                className="px-4 py-2 rounded-lg text-sm bg-gray-100 hover:bg-gray-200"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={() => handleDelete(deleteId)}
+                className="px-4 py-2 rounded-lg text-sm bg-red-500 hover:bg-red-600 text-white"
+              >
+                Delete
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
