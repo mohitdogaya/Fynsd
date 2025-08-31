@@ -52,12 +52,12 @@ const submit = async (e) => {
         </button>
 
         {/* Signup Link */}
-        {/* <p className="text-sm text-gray-400 text-center">
+        <p className="text-sm text-gray-400 text-center">
           Don’t have an account?{" "}
           <Link to="/admin/signup" className="text-pink-400 hover:underline">
             Signup
           </Link>
-        </p> */}
+        </p>
       </form>
     </div>
   );
