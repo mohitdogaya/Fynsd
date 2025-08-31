@@ -5,13 +5,32 @@ import User from "../models/User.js";
 export const userRegister = async (req, res) => {
   try {
     const { name, email, password } = req.body;
+
+    // 1. Check required fields
+    if (!name || !email || !password) {
+      return res.status(400).json({ msg: "Name, email, and password are required" });
+    }
+
+    // 2. Check if email already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ msg: "Email already registered" });
+    }
+
+    // 3. Hash password
     const hash = await bcrypt.hash(password, 10);
+
+    // 4. Create user
     const user = await User.create({ name, email, password: hash });
-    res.json({ id: user._id, name: user.name });
+
+    // 5. Return response
+    res.status(201).json({ id: user._id, name: user.name });
   } catch (err) {
-    res.status(400).json({ msg: "Error registering user", error: err.message });
+    console.error(err);
+    res.status(500).json({ msg: "Error registering user", error: err.message });
   }
 };
+
 
 export const userLogin = async (req, res) => {
   const { email, password } = req.body;
