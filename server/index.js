@@ -5,6 +5,7 @@ import compression from "compression";
 import dotenv from "dotenv";
 
 dotenv.config();
+import connectDB from "./config/db.js";
 import jwt from "jsonwebtoken";
 
 import passport from "passport";
@@ -12,7 +13,6 @@ import "./config/passport.js"; // passport config
 
 import googleAuthRoutes from "./routes/googleAuth.routes.js";
 
-import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
@@ -67,7 +67,12 @@ app.use("/api/payment", paymentRoutes);
 
 // Server + DB
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, async () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  await connectDB();
+
+connectDB().then(() => {
+  app.listen(PORT, () => {
+    console.log(`🚀 Server running on port ${PORT}`);
+  });
+}).catch((err) => {
+  console.error("❌ Failed to connect DB", err);
+  process.exit(1);
 });
