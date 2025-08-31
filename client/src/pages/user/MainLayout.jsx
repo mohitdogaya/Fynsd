@@ -11,12 +11,6 @@ export default function MainLayout() {
       const token = localStorage.getItem("token");
       const role = localStorage.getItem("role");
 
-      // ⇝ Not logged in → redirect
-      if (!token) {
-        navigate("/user/login", { replace: true });
-        // return; // 🔹 prevent further execution
-      }
-
       // ⇝ Admin trying to access user page → redirect
       if (role === "admin") {
         navigate("/admin", { replace: true });
