@@ -16,8 +16,9 @@ export default function AdminRoadmapEditor() {
       advanced: [],
     },
   });
+  const [showModal, setShowModal] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
-  // ✅ Load roadmap if editing
   useEffect(() => {
     if (id) {
       (async () => {
@@ -31,7 +32,6 @@ export default function AdminRoadmapEditor() {
     }
   }, [id]);
 
-  // ✅ Add step to a level
   const addStep = (level) => {
     setForm((prev) => ({
       ...prev,
@@ -42,7 +42,6 @@ export default function AdminRoadmapEditor() {
     }));
   };
 
-  // ✅ Update step
   const updateStep = (level, idx, field, value) => {
     const updated = [...form.levels[level]];
     updated[idx][field] = value;
@@ -52,7 +51,6 @@ export default function AdminRoadmapEditor() {
     }));
   };
 
-  // ✅ Remove step
   const removeStep = (level, idx) => {
     setForm((prev) => ({
       ...prev,
@@ -63,7 +61,6 @@ export default function AdminRoadmapEditor() {
     }));
   };
 
-  // ✅ Save handler
   const save = async () => {
     try {
       if (id) {
@@ -71,11 +68,19 @@ export default function AdminRoadmapEditor() {
       } else {
         await api.post(`/roadmaps`, form);
       }
-      alert("✅ Roadmap saved");
-      navigate("/admin");
+      // ✅ Show modal instead of alert
+      setModalMessage("✅ Roadmap saved successfully!");
+      setShowModal(true);
+
+      setTimeout(() => {
+        setShowModal(false);
+        navigate("/admin");
+      }, 2000);
     } catch (err) {
       console.error(err);
-      alert("❌ Failed to save roadmap");
+      setModalMessage("❌ Failed to save roadmap");
+      setShowModal(true);
+      setTimeout(() => setShowModal(false), 2000);
     }
   };
 
@@ -174,8 +179,17 @@ export default function AdminRoadmapEditor() {
           onClick={save}
           className="w-full bg-gradient-to-r from-[#1ABC9C] to-[#00FFE0] text-white font-semibold text-lg py-3 rounded-xl shadow-md hover:shadow-lg transition transform hover:scale-105"
         >
-          💾 Save Roadmap
+          Save Roadmap
         </button>
+
+        {/* Modal */}
+        {showModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+            <div className="bg-white rounded-xl p-6 shadow-2xl text-center max-w-sm">
+              <p className="text-lg font-semibold">{modalMessage}</p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

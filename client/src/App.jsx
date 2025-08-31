@@ -97,7 +97,7 @@ export default function App() {
       </Route>
 
       {/* ===================== ADMIN ROUTES ===================== */}
-      <Route path="/admin/signup" element={<AdminSignup />} />
+      {/* <Route path="/admin/signup" element={<AdminSignup />} /> */}
       <Route element={<AdminLayout />}>
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route

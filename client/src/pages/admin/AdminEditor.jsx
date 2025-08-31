@@ -22,6 +22,7 @@ export default function AdminEditor() {
     isPremium: false,
     views: 0,
   });
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -57,8 +58,13 @@ export default function AdminEditor() {
     } else {
       await api.post(`/admin/contents/create`, payload);
     }
-    alert("Saved ✅");
-    navigate("/admin");
+    setShowModal(true);
+
+    // Auto close modal after 2s
+    setTimeout(() => {
+      setShowModal(false);
+      navigate("/admin");
+    }, 2000);
   };
 
   const uploadFile = async (file) => {
@@ -128,11 +134,10 @@ export default function AdminEditor() {
               key={opt}
               type="button"
               onClick={() => toggleType(opt)}
-              className={`px-6 py-2 rounded-xl border text-sm font-semibold uppercase tracking-wide transition-all ${
-                form.type.includes(opt)
+              className={`px-6 py-2 rounded-xl border text-sm font-semibold uppercase tracking-wide transition-all ${form.type.includes(opt)
                   ? "bg-black text-white border-black shadow-lg"
                   : "bg-white/60 text-gray-700 border-gray-300 hover:bg-gray-100"
-              }`}
+                }`}
             >
               {opt}
             </button>
@@ -238,6 +243,16 @@ export default function AdminEditor() {
         >
           Save Content
         </button>
+
+        {/* Modal */}
+        {showModal && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+            <div className="bg-white rounded-xl p-8 shadow-2xl text-center max-w-sm">
+              <h2 className="text-xl font-bold mb-2">Saved Successfully!</h2>
+              <p className="text-gray-700">You will be redirected shortly...</p>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
