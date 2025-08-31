@@ -14,4 +14,4 @@ export const googleCallback = (req, res) => {
     console.error("Google Auth Error:", err);
     res.status(500).json({ message: "Google Auth failed" });
   }
-};
+}; 
