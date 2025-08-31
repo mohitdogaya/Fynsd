@@ -42,7 +42,7 @@ export default function AllContents() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this content?")) return;
     try {
-      await api.delete(`/admin/contents/${id}`);
+      await api.delete(`/admin/content/${id}`);
       setContents(contents.filter((c) => c._id !== id));
       alert("Content deleted successfully");
     } catch (err) {
