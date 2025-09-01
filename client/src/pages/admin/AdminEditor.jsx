@@ -46,19 +46,20 @@ export default function AdminEditor() {
   }, [id]);
 
   const save = async () => {
-
     if (form.type.includes("video")) {
       if (!form.sourceUrl) {
         toast.error("Please provide a video URL before saving.");
         return;
       }
 
-      const urlPattern = /^(https?:\/\/)?([\w.-]+)\.([a-z\.]{2,6})([\/\w .-]*)*\/?$/;
-      if (!urlPattern.test(form.sourceUrl)) {
+      try {
+        new URL(form.sourceUrl); // ✅ built-in URL validator
+      } catch {
         toast.error("Invalid video URL. Please enter a valid link.");
         return;
       }
     }
+
     const payload = {
       ...form,
       topics: form.topics
@@ -72,6 +73,7 @@ export default function AdminEditor() {
     } else {
       await api.post(`/admin/contents/create`, payload);
     }
+
     setShowModal(true);
 
     // Auto close modal after 2s
@@ -80,6 +82,7 @@ export default function AdminEditor() {
       navigate("/admin");
     }, 2000);
   };
+
 
   const uploadFile = async (file) => {
     const fd = new FormData();
