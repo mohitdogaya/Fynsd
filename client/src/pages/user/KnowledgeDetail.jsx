@@ -46,7 +46,7 @@ export default function KnowledgeDetail() {
   const [editingId, setEditingId] = useState(null);
   const [editText, setEditText] = useState("");
 
-  // 📌 Fetch content
+  // -Fetch content
   useEffect(() => {
     async function fetchDoc() {
       const res = await api.get(`/content/${slug}`);
@@ -58,7 +58,7 @@ export default function KnowledgeDetail() {
     fetchDoc();
   }, [slug]);
 
-  // 📌 Fetch comments
+  // -Fetch comments
   useEffect(() => {
     if (!doc?._id) return;
     fetchComments();
@@ -69,7 +69,7 @@ export default function KnowledgeDetail() {
     setComments(res.data);
   }
 
-  // 📌 Handle like toggle
+  // -Handle like toggle
   async function handleLike() {
     const res = await api.post("/likes", { contentId: doc._id });
     setLiked(res.data.liked);
@@ -77,7 +77,7 @@ export default function KnowledgeDetail() {
     setLikes(countRes.data.count);
   }
 
-  // 📌 Add comment / reply
+  // -Add comment / reply
   async function handleAddComment() {
     if (!newComment.trim()) return;
     await api.post("/comments", {
@@ -90,13 +90,13 @@ export default function KnowledgeDetail() {
     fetchComments();
   }
 
-  // 📌 Delete comment
+  // -Delete comment
   async function handleDeleteComment(id) {
     await api.delete(`/comments/${id}`);
     fetchComments();
   }
 
-  // 📌 Edit comment
+  // -Edit comment
   async function handleEditComment(id) {
     if (!editText.trim()) return;
     await api.put(`/comments/${id}`, { text: editText });
@@ -224,7 +224,7 @@ export default function KnowledgeDetail() {
       setGeneratedOnce(true); // ✅ only once allowed
       setShowAISummary(true); // ✅ switch to AI summary
     } catch (err) {
-      console.error("❌ AI Error:", err);
+      console.error("AI Error:", err);
       alert("Failed to generate summary");
     }
     setLoadingSummary(false);
@@ -277,11 +277,37 @@ export default function KnowledgeDetail() {
           {/* Article */}
           {doc.type.includes("article") && (
             <div className="markdown-body text-black">
-              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  // 🔗 For Links
+                  a: ({ href, children }) => (
+                    <a
+                      href={href} // link kaha le ja raha hai
+                      target="_blank" // new tab me khulega
+                      rel="noopener noreferrer"
+                      className="text-blue-600 underline"
+                    >
+                      {children} {/* link ka text */}
+                    </a>
+                  ),
+
+                  // 🖼️ For Images
+                  img: ({ src, alt }) => (
+                    <img
+                      src={src} // image ka path
+                      alt={alt} // image ka description (agar image load na ho to text dikhayega)
+                      className="max-w-full h-auto rounded-lg shadow-md"
+                      loading="lazy" // image tab load hogi jab zarurat hogi (fast performance)
+                    />
+                  ),
+                }}
+              >
                 {doc.body || ""}
               </ReactMarkdown>
             </div>
           )}
+
 
           {/* Video */}
           {doc.type.includes("video") && (
@@ -353,9 +379,16 @@ export default function KnowledgeDetail() {
           <div className="flex gap-4 items-center text-sm font-semibold mt-4">
             <button
               onClick={handleLike}
-              className="flex items-center gap-1 px-3 py-1 rounded-full bg-[#E7E7E3] text-[#09332C] hover:bg-[#d1d1d1]"
+              className={`flex items-center gap-1 px-3 py-1 rounded-full transition ${liked
+                  ? "bg-[#00FF7C] text-[#09332C] shadow-md"
+                  : "bg-[#E7E7E3] text-[#09332C] hover:bg-[#d1d1d1]"
+                }`}
             >
-              <ThumbsUp size={16} /> {likes}
+              <ThumbsUp
+                size={16}
+                className={liked ? "fill-[#09332C] text-[#09332C]" : ""}
+              />
+              {likes}
             </button>
             <span className="flex items-center gap-1 px-3 py-1 rounded-full bg-[#E7E7E3] text-[#09332C]">
               <Eye size={16} /> {doc.views || 0}

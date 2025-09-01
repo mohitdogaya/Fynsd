@@ -5,6 +5,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import api from "../../lib/api";
 import "github-markdown-css/github-markdown-light.css";
+import toast from "react-hot-toast";
 
 export default function AdminEditor() {
   const { id } = useParams();
@@ -45,6 +46,19 @@ export default function AdminEditor() {
   }, [id]);
 
   const save = async () => {
+
+    if (form.type.includes("video")) {
+      if (!form.sourceUrl) {
+        toast.error("Please provide a video URL before saving.");
+        return;
+      }
+
+      const urlPattern = /^(https?:\/\/)?([\w.-]+)\.([a-z\.]{2,6})([\/\w .-]*)*\/?$/;
+      if (!urlPattern.test(form.sourceUrl)) {
+        toast.error("Invalid video URL. Please enter a valid link.");
+        return;
+      }
+    }
     const payload = {
       ...form,
       topics: form.topics
@@ -135,8 +149,8 @@ export default function AdminEditor() {
               type="button"
               onClick={() => toggleType(opt)}
               className={`px-6 py-2 rounded-xl border text-sm font-semibold uppercase tracking-wide transition-all ${form.type.includes(opt)
-                  ? "bg-black text-white border-black shadow-lg"
-                  : "bg-white/60 text-gray-700 border-gray-300 hover:bg-gray-100"
+                ? "bg-black text-white border-black shadow-lg"
+                : "bg-white/60 text-gray-700 border-gray-300 hover:bg-gray-100"
                 }`}
             >
               {opt}

@@ -1,7 +1,7 @@
 // src/pages/user/UserSignup.jsx
 import { useState } from "react";
 import api from "../../lib/api.js";
-import { Mail, Lock, User } from "lucide-react";
+import { Mail, Lock, User, Info } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
 
 export default function UserSignup() {
@@ -9,10 +9,15 @@ export default function UserSignup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showInstructions, setShowInstructions] = useState(false);
 
   const validateForm = () => {
     if (!name) {
       toast.error("Name is required");
+      return false;
+    }
+    if (/\s/.test(name)) {
+      toast.error("Name cannot contain spaces");
       return false;
     }
     if (!email) {
@@ -29,6 +34,22 @@ export default function UserSignup() {
     }
     if (password.length < 6) {
       toast.error("Password must be at least 6 characters");
+      return false;
+    }
+    if (!/[A-Z]/.test(password)) {
+      toast.error("Password must include at least 1 uppercase letter");
+      return false;
+    }
+    if (!/[0-9]/.test(password)) {
+      toast.error("Password must include at least 1 number");
+      return false;
+    }
+    if (!/[!@#$%^&*(),.?":{}|<>]/.test(password)) {
+      toast.error("Password must include at least 1 special character");
+      return false;
+    }
+    if (/^\d+$/.test(password)) {
+      toast.error("Password cannot be only numbers");
       return false;
     }
     return true;
@@ -74,8 +95,7 @@ export default function UserSignup() {
           Create New Account
         </h1>
         <p className="text-center text-gray-600 mb-8">
-          Join{" "}
-          <span className="text-[#00b76c] font-semibold">Fynsd</span>
+          Join <span className="text-[#00b76c] font-semibold">Fynsd</span>
         </p>
 
         {/* Form */}
@@ -126,6 +146,29 @@ export default function UserSignup() {
             />
           </div>
 
+          {/* Instructions Toggle */}
+          <div className="text-right">
+            <button
+              type="button"
+              onClick={() => setShowInstructions(!showInstructions)}
+              className="text-sm text-[#00b76c] hover:text-[#008a55] font-medium flex items-center gap-1 ml-auto"
+            >
+              <Info size={16} />
+              {showInstructions ? "Hide Instructions" : "Show Instructions"}
+            </button>
+          </div>
+
+          {showInstructions && (
+            <div className="bg-white/70 border border-gray-200 rounded-lg p-4 text-sm text-gray-700 shadow-inner space-y-1">
+              <p>✅ Minimum 6 characters</p>
+              <p>✅ Not only numbers</p>
+              <p>✅ At least 1 uppercase letter (A–Z)</p>
+              <p>✅ At least 1 number (0–9)</p>
+              <p>✅ At least 1 special character (!@#$ etc.)</p>
+              <p>❌ No spaces allowed in name</p>
+            </div>
+          )}
+
           {/* Button */}
           <button
             type="submit"
@@ -136,20 +179,20 @@ export default function UserSignup() {
           </button>
 
           {/* Google Button */}
-<button
-  onClick={() => {
-    window.location.href = "https://fynsd-backend.vercel.app/auth/google"; // backend ka route
-  }}
-  className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 text-gray-700 font-medium py-3 rounded-xl shadow-md hover:bg-gray-50 transition"
->
-  <img
-    src="https://developers.google.com/identity/images/g-logo.png"
-    alt="Google"
-    className="w-5 h-5"
-  />
-  Continue with Google
-</button>
-
+          <button
+            onClick={() => {
+              window.location.href = "https://fynsd-backend.vercel.app/auth/google";
+            }}
+            type="button"
+            className="w-full flex items-center justify-center gap-2 bg-white border border-gray-300 text-gray-700 font-medium py-3 rounded-xl shadow-md hover:bg-gray-50 transition"
+          >
+            <img
+              src="https://developers.google.com/identity/images/g-logo.png"
+              alt="Google"
+              className="w-5 h-5"
+            />
+            Continue with Google
+          </button>
         </form>
 
         {/* Footer */}

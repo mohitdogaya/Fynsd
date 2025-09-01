@@ -6,30 +6,51 @@ export const userRegister = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    // 1. Check required fields
+    // 1. Required fields check
     if (!name || !email || !password) {
       return res.status(400).json({ msg: "Name, email, and password are required" });
     }
 
-    // 2. Check if email already exists
+    // 2. Name validations
+    if (name.trim().length < 2) {
+      return res.status(400).json({ msg: "Name must be at least 2 characters" });
+    }
+    if (!isNaN(name)) { // agar pura number hai
+      return res.status(400).json({ msg: "Name cannot be only numbers" });
+    }
+
+    // 3. Password validations
+    if (password.trim().length < 4) {
+      return res.status(400).json({ msg: "Password must be at least 4 characters" });
+    }
+    if (!isNaN(password)) { // agar pura number hai
+      return res.status(400).json({ msg: "Password cannot be only numbers" });
+    }
+
+    // 4. Check if email already exists
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ msg: "Email already registered" });
     }
 
-    // 3. Hash password
+    // 5. Hash password
     const hash = await bcrypt.hash(password, 10);
 
-    // 4. Create user
-    const user = await User.create({ name, email, password: hash });
+    // 6. Create user
+    const user = await User.create({
+      name: name.trim(),
+      email,
+      password: hash,
+    });
 
-    // 5. Return response
+    // 7. Send response
     res.status(201).json({ id: user._id, name: user.name });
   } catch (err) {
     console.error(err);
-    res.status(500).json({ msg: "Error registering user", error: err.message });
+    res.status(500).json({ msg: "Error registering user" });
   }
 };
+
 
 
 export const userLogin = async (req, res) => {
