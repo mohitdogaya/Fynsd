@@ -2,47 +2,51 @@
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import Home from "./pages/user/Home.jsx";
+
+// Context
+import { UserProvider } from "./context/UserContext";
+
+// Layouts
+import MainLayout from "./pages/user/MainLayout.jsx";
+import UserLayout from "./pages/user/UserLayout.jsx";
+import AdminLayout from "./pages/admin/AdminLayout.jsx";
+
+// Common
+import NotFound from "./pages/common/NotFound.jsx";
+
 // User Pages
-import KnowledgeDetail from "./pages/user/KnowledgeDetail.jsx";
-import KnowledgeList from "./pages/user/KnowledgeList.jsx";
-import UserLogin from "./pages/user/UserLogin.jsx";
-import UserSignup from "./pages/user/UserSignup.jsx";
-import UserProfile from "./pages/user/UserProfile.jsx";
+import Home from "./pages/user/Home.jsx";
 import About from "./pages/user/About.jsx";
 import Calculators from "./pages/user/Calculators.jsx";
-import MyActivity from "./pages/user/MyActivity.jsx";
-
 import Advertise from "./pages/user/Advertise.jsx";
-import MainLayout from "./pages/user/MainLayout.jsx"
+import FAQ from "./pages/user/FAQ.jsx";
+import Contact from "./pages/user/Contact.jsx";
+import UserLogin from "./pages/user/UserLogin.jsx";
+import UserSignup from "./pages/user/UserSignup.jsx";
+import GoogleCallback from "./pages/user/GoogleCallback.jsx";
+import KnowledgeList from "./pages/user/KnowledgeList.jsx";
+import KnowledgeDetail from "./pages/user/KnowledgeDetail.jsx";
+import UserProfile from "./pages/user/UserProfile.jsx";
+import MyActivity from "./pages/user/MyActivity.jsx";
+import RoadmapPage from "./pages/user/RoadmapPage.jsx";
 
 // Admin Pages
 import AdminLogin from "./pages/admin/AdminLogin.jsx";
-import AdminSignup from "./pages/admin/AdminSignup.jsx";
 import AdminDashboard from "./pages/admin/AdminDashboard.jsx";
 import AdminEditor from "./pages/admin/AdminEditor.jsx";
 import AllContents from "./pages/admin/AllContents.jsx";
 import AdminUsers from "./pages/admin/AdminUsers.jsx";
 import AdminProfile from "./pages/admin/AdminProfile.jsx";
 import AdminRoadmapEditor from "./pages/admin/AdminRoadmapEditor.jsx";
-import RoadmapPage from "./pages/user/RoadmapPage.jsx";
-
-// Layouts
-import UserLayout from "./pages/user/UserLayout.jsx";
-import AdminLayout from "./pages/admin/AdminLayout.jsx";
-
-// Role-based route wrapper
-import ProtectedRoute from "./components/ProtectedRoute.jsx";
 import AllRoadmap from "./pages/admin/AllRoadmap.jsx";
-import FAQ from "./pages/user/FAQ.jsx";
-import Contact from "./pages/user/Contact.jsx";
-import GoogleCallback from "./pages/user/GoogleCallback";
-import NotFound from "./pages/common/NotFound.jsx";
+
+// Utils
+import ProtectedRoute from "./components/ProtectedRoute.jsx";
 
 export default function App() {
   return (
     <Routes>
-
+      {/* ===================== PUBLIC ROUTES ===================== */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -53,24 +57,21 @@ export default function App() {
         <Route path="/user/login" element={<UserLogin />} />
       </Route>
 
-      {/* Fallback Route - last me rakho */}
+      <Route path="/user/signup" element={<><Navbar /><UserSignup /></>} />
+      <Route path="/user/google/callback" element={<GoogleCallback />} />
+
       <Route path="*" element={<NotFound />} />
 
-      <Route path="/user/signup" element={<>
-        <Navbar />
-        <UserSignup />
-      </>} />
-      <Route path="/user/google/callback" element={<GoogleCallback />} />
       {/* ===================== USER ROUTES ===================== */}
-      <Route element={<UserLayout />}>
-        <Route path="/knowledge" element={<>
-          <KnowledgeList />
-          <Footer />
-        </>} />
-        <Route path="/knowledge/:slug" element={<>
-          <KnowledgeDetail />
-          <Footer />
-        </>} />
+      <Route
+        element={
+          <UserProvider>
+            <UserLayout />
+          </UserProvider>
+        }
+      >
+        <Route path="/knowledge" element={<><KnowledgeList /><Footer /></>} />
+        <Route path="/knowledge/:slug" element={<><KnowledgeDetail /><Footer /></>} />
 
         <Route
           path="/user/profile"
@@ -88,16 +89,10 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-
-        {/* Roadmap Page */}
-        <Route path="/roadmap" element={<>
-          <RoadmapPage />
-          <Footer />
-        </>} />
+        <Route path="/roadmap" element={<><RoadmapPage /><Footer /></>} />
       </Route>
 
       {/* ===================== ADMIN ROUTES ===================== */}
-      {/* <Route path="/admin/signup" element={<AdminSignup />} /> */}
       <Route element={<AdminLayout />}>
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route

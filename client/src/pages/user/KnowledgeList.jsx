@@ -1,12 +1,12 @@
 // src/pages/knowledge/KnowledgeList.jsx
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { useOutletContext } from "react-router-dom";
+import { useUser } from "../../context/UserContext";  // ✅
 import api from "../../lib/api";
 import { Search, BookOpen, Video, Star, Eye } from "lucide-react";
 
 export default function KnowledgeList() {
-  const { user } = useOutletContext();
+  const { user } = useUser();  
 
   const [items, setItems] = useState([]);
   const [q, setQ] = useState("");

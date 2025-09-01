@@ -211,7 +211,7 @@ export default function KnowledgeDetail() {
 
   const sampleAd = {
     title: "Finance Ad",
-    image: "../../../vite.svg",
+    image: "../../../NoteNest-Ads.png",
     url: "https://notenest-front.vercel.app",
   };
 

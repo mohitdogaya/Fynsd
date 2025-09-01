@@ -1,11 +1,13 @@
-import { useOutletContext, useNavigate } from "react-router-dom";
+// src/pages/user/UserProfile.jsx
+import { useNavigate } from "react-router-dom";
+import { useUser } from "../../context/UserContext";
 import LogoutButton from "../../components/LogoutButton";
 import { ArrowLeft, Mail, Calendar, Crown, X } from "lucide-react";
 import UpgradeButton from "../../components/UpgradeButton.jsx";
 import { useState } from "react";
 
 export default function UserProfile() {
-  const { user } = useOutletContext(); // ✅ get user from layout
+  const { user } = useUser();   // ✅ direct context se
   const navigate = useNavigate();
   const [showPerks, setShowPerks] = useState(false);
 

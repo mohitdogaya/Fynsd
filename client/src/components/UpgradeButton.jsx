@@ -1,15 +1,16 @@
 // src/components/UpgradeButton.jsx
 import api from "../lib/api";
 import toast from "react-hot-toast";
+import { useUser } from "../context/UserContext";
 
 export default function UpgradeButton({ userId }) {
+  const { fetchUser } = useUser();  // ✅ context se fetchUser milega
+
   const handleUpgrade = async () => {
     try {
-      // Step 1: Create order
       const { data } = await api.post("/payment/create-order", { amount: 499 });
       const { id: orderId, amount, currency } = data.order;
 
-      // Step 2: Razorpay options
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount,
@@ -19,7 +20,6 @@ export default function UpgradeButton({ userId }) {
         order_id: orderId,
         handler: async function (response) {
           try {
-            // Step 3: Verify payment
             const verifyRes = await api.post("/payment/verify-payment", {
               userId,
               razorpay_order_id: response.razorpay_order_id,
@@ -29,8 +29,7 @@ export default function UpgradeButton({ userId }) {
 
             if (verifyRes.data.success) {
               toast.success("Payment successful, Premium Activated!");
-              // Notify parent components
-              window.dispatchEvent(new Event("profileUpdated"));
+              await fetchUser();   // ✅ context refresh karega
             } else {
               toast.error("Payment verification failed!");
             }
