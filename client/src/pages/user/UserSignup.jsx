@@ -160,12 +160,12 @@ export default function UserSignup() {
 
           {showInstructions && (
             <div className="bg-white/70 border border-gray-200 rounded-lg p-4 text-sm text-gray-700 shadow-inner space-y-1">
-              <p>✅ Minimum 6 characters</p>
-              <p>✅ Not only numbers</p>
-              <p>✅ At least 1 uppercase letter (A–Z)</p>
-              <p>✅ At least 1 number (0–9)</p>
-              <p>✅ At least 1 special character (!@#$ etc.)</p>
-              <p>❌ No spaces allowed in name</p>
+              <p>Minimum 6 characters</p>
+              <p>Not only numbers</p>
+              <p>At least 1 uppercase letter (A–Z)</p>
+              <p>At least 1 number (0–9)</p>
+              <p>At least 1 special character (!@#$ etc.)</p>
+              <p>No spaces allowed in name</p>
             </div>
           )}
 
