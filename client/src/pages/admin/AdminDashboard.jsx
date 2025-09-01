@@ -16,37 +16,60 @@ export default function AdminDashboard() {
     const token = localStorage.getItem("token");
     const role = localStorage.getItem("role");
 
+    // agar admin login nahi hai to login page bhej do
     if (!token || role !== "admin") {
       navigate("/admin/login");
       return;
     }
 
-    // Fetch Latest Content
-    (async () => {
+    // ✅ Latest Content fetch
+    async function getContents() {
       try {
-        const { data } = await api.get("/admin/contents", {
+        const res = await api.get("/admin/contents", {
           params: { page: 1, limit: 6 },
         });
-        setLatestContents(Array.isArray(data) ? data : data.items || []);
-      } catch (err) {
-        console.error(err);
+
+        let items = res.data;
+        if (Array.isArray(items)) {
+          setLatestContents(items.slice(0, 6));
+        } else if (items.items) {
+          setLatestContents(items.items.slice(0, 6));
+        } else {
+          setLatestContents([]);
+        }
+      } catch (error) {
+        console.log("Error fetching contents:", error);
         setLatestContents([]);
       }
-    })();
+    }
 
-    // Fetch Latest Roadmaps
-    (async () => {
+    // ✅ Latest Roadmaps fetch
+    async function getRoadmaps() {
       try {
-        const { data } = await api.get("/roadmaps", {
+        const res = await api.get("/roadmaps", {
           params: { page: 1, limit: 6 },
         });
-        setLatestRoadmaps(Array.isArray(data) ? data : data.items || []);
-      } catch (err) {
-        console.error(err);
+
+        let items = res.data;
+        if (Array.isArray(items)) {
+          setLatestRoadmaps(items.slice(0, 6));
+        } else if (items.items) {
+          setLatestRoadmaps(items.items.slice(0, 6));
+        } else {
+          setLatestRoadmaps([]);
+        }
+      } catch (error) {
+        console.log("Error fetching roadmaps:", error);
         setLatestRoadmaps([]);
       }
-    })();
+    }
+
+    // functions ko call kar do
+    getContents();
+    getRoadmaps();
+
   }, [navigate]);
+
 
   return (
     <div className="min-h-screen w-full relative text-[#2F3E46] px-6 pt-20 pb-16 overflow-x-hidden">
@@ -144,22 +167,20 @@ export default function AdminDashboard() {
         <div>
           <div className="flex gap-6 border-b border-[#E7E7E3] mb-6">
             <button
-              className={`pb-2 font-semibold transition ${
-                activeTab === "latest"
-                  ? "border-b-2 border-[#1ABC9C] text-[#09332C]"
-                  : "text-gray-500 hover:text-[#09332C]"
-              }`}
+              className={`pb-2 font-semibold transition ${activeTab === "latest"
+                ? "border-b-2 border-[#1ABC9C] text-[#09332C]"
+                : "text-gray-500 hover:text-[#09332C]"
+                }`}
               onClick={() => setActiveTab("latest")}
             >
               Latest Content
             </button>
 
             <button
-              className={`pb-2 font-semibold transition ${
-                activeTab === "roadmaps"
-                  ? "border-b-2 border-[#1ABC9C] text-[#09332C]"
-                  : "text-gray-500 hover:text-[#09332C]"
-              }`}
+              className={`pb-2 font-semibold transition ${activeTab === "roadmaps"
+                ? "border-b-2 border-[#1ABC9C] text-[#09332C]"
+                : "text-gray-500 hover:text-[#09332C]"
+                }`}
               onClick={() => setActiveTab("roadmaps")}
             >
               Latest Roadmaps
@@ -183,16 +204,16 @@ export default function AdminDashboard() {
                     <div className="flex gap-2 text-sm text-gray-500 capitalize">
                       {Array.isArray(it.type)
                         ? it.type.map((t, idx) => (
-                            <span key={idx} className="flex items-center gap-1">
-                              {t === "article" && (
-                                <FileText size={14} className="text-[#1ABC9C]" />
-                              )}
-                              {t === "video" && (
-                                <Video size={14} className="text-[#00FFE0]" />
-                              )}
-                              {t}
-                            </span>
-                          ))
+                          <span key={idx} className="flex items-center gap-1">
+                            {t === "article" && (
+                              <FileText size={14} className="text-[#1ABC9C]" />
+                            )}
+                            {t === "video" && (
+                              <Video size={14} className="text-[#00FFE0]" />
+                            )}
+                            {t}
+                          </span>
+                        ))
                         : it.type}
                     </div>
 

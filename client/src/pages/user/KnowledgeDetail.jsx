@@ -119,14 +119,13 @@ export default function KnowledgeDetail() {
     return url;
   }
 
-// ✅ Render comments (with replies)
+  // ✅ Render comments (with replies)
   function renderComments(list, isReply = false) {
     return list.slice(0, visibleCount).map((c) => (
       <div
         key={c._id}
-        className={`border p-3 rounded-lg bg-[#f9f9f9] mt-2 ${
-          isReply ? "ml-6" : ""
-        }`}
+        className={`border p-3 rounded-lg bg-[#f9f9f9] mt-2 ${isReply ? "ml-6" : ""
+          }`}
       >
         <div className="flex justify-between items-center">
           {editingId === c._id ? (
@@ -400,16 +399,16 @@ export default function KnowledgeDetail() {
           {/* Comment list */}
           <div className="flex flex-col gap-3">{renderComments(comments)}</div>
           {/* ✅ Load More Button */}
-      {visibleCount < comments.length && (
-        <div className="text-center mt-4">
-          <button
-            onClick={() => setVisibleCount((prev) => prev + 15)}
-            className="px-4 py-2 bg-gray-800 text-white rounded-full shadow hover:bg-gray-700 transition"
-          >
-            Load More
-          </button>
-        </div>
-      )}
+          {visibleCount < comments.length && (
+            <div className="text-center mt-4">
+              <button
+                onClick={() => setVisibleCount((prev) => prev + 15)}
+                className="px-4 py-2 bg-gray-800 text-white rounded-full shadow hover:bg-gray-700 transition"
+              >
+                Load More
+              </button>
+            </div>
+          )}
         </div>
 
         <div className="bg-white p-6 rounded-xl shadow-md border border-[#E7E7E3]">
@@ -417,20 +416,21 @@ export default function KnowledgeDetail() {
             <Tags size={18} /> Tags
           </h2>
 
-          {/* Add comment */}
-          <div className="flex gap-2 mb-4">
+          {/* ✅ Wrap tags */}
+          <div className="flex flex-wrap gap-2 mb-4">
+            {Array.isArray(doc.topics) && doc.topics.length > 0 &&
+              doc.topics.map((topic, i) => (
+                <span
+                  key={i}
+                  className="px-3 py-1 rounded-full bg-white text-[#09332C] border border-[#00FF7C]/30 shadow-sm"
+                >
+                  #{topic}
+                </span>
+              ))
+            }
+          </div>
+        </div>
 
-          {/* ✅ Topics badges */}
-          {Array.isArray(doc.topics) && doc.topics.length > 0 && doc.topics.map((topic, i) => (
-            <span
-              key={i}
-              className="px-3 py-1 rounded-full bg-white text-[#09332C] border border-[#00FF7C]/30 shadow-sm"
-            >
-              #{topic}
-            </span>
-          ))}
-        </div>
-        </div>
 
       </div>
     </div>
