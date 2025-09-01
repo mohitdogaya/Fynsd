@@ -5,7 +5,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import "github-markdown-css/github-markdown.css";
 import Advertisements from "../../components/Advertisements";
-import { useOutletContext } from "react-router-dom";
+import { useUser } from "../../context/UserContext";
 
 import api from "../../lib/api";
 import {
@@ -38,7 +38,7 @@ export default function KnowledgeDetail() {
   const [loadingSummary, setLoadingSummary] = useState(false);
   const [showAISummary, setShowAISummary] = useState(false);
   const [generatedOnce, setGeneratedOnce] = useState(false);
-  const { user } = useOutletContext();
+  const { user } = useUser();  
   const [visibleCount, setVisibleCount] = useState(15);
 
 
