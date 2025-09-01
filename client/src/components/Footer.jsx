@@ -48,7 +48,7 @@ export default function Footer() {
             Contact
           </h3>
           <p className="text-sm">support@fynsd.com</p>
-          <p className="text-sm">+91 98765 43210</p>
+          <p className="text-sm">+91 62685 41185</p>
         </div>
 
         {/* Social Media */}

@@ -1,13 +1,17 @@
 // src/pages/Home.jsx
 import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   BookOpen, Wrench, Star, Map, Users, Rocket, Sparkles,
-  Lightbulb, HelpCircle, BookMarked, Crown, Heart, MessageSquare, Eye, Megaphone, CheckCircle, XCircle,
+  Lightbulb, HelpCircle, BookMarked, Crown, Heart, MessageSquare,
+  Eye, Megaphone, CheckCircle, XCircle, NotebookPen, ListTodo,
 } from "lucide-react";
 import TaglineScroll from "../../components/TaglineScroll";
 
 export default function Home() {
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
   const features = [
     {
       icon: (
@@ -80,6 +84,16 @@ export default function Home() {
       title: "Community Support",
       desc: "Learn with peers, share doubts, and grow together.",
     },
+    {
+      icon: <NotebookPen className="w-12 h-12 text-[#FF6B00] mb-4" />,
+      title: "Notes",
+      desc: "Create, view, edit, and delete your personal finance notes.",
+    },
+    {
+      icon: <ListTodo className="w-12 h-12 text-[#0077FF] mb-4" />,
+      title: "To-Do List",
+      desc: "Stay organized with a simple finance-focused task manager.",
+    },
   ];
 
   const stats = [
@@ -87,6 +101,12 @@ export default function Home() {
     { title: "Articles", value: "678+" },
     { title: "Tools", value: "24+" },
   ];
+
+  const handlePlanClick = () => {
+    if (!token) {
+      navigate("/login");
+    }
+  };
 
   return (
     <div className="min-h-screen w-full relative font-poppins text-[#2F3E46]">
@@ -108,7 +128,6 @@ export default function Home() {
           <span className="inline-flex items-center px-4 py-2 bg-gradient-to-r from-[#00FF7C]/10 to-[#007755]/10 border border-[#00FF7C]/20 rounded-full text-[#007755] text-sm font-medium m-6 backdrop-blur-sm">
             <Sparkles className="w-4 h-4 mr-2" />
             Fynsd – Clarity that Builds Prosperity.
-            {/* Transform Your Financial Future */}
           </span>
 
           <h1 className="text-6xl md:text-7xl font-extrabold mb-6 leading-tight tracking-tight">
@@ -129,8 +148,6 @@ export default function Home() {
             Start Learning
           </Link>
         </motion.section>
-        {/* 
-        <marquee behavior="loop" direction="" className="text-lg md:text-xl mx-auto mb-12"> Fynsd • Clarity that Builds Prosperity | Fynsd • Clarity that Builds Prosperity | Fynsd • Clarity that Builds Prosperity</marquee> */}
 
         <TaglineScroll />
 
@@ -178,65 +195,6 @@ export default function Home() {
             ))}
           </div>
         </section>
-        {/* Divider */}
-        <div className="w-16 h-1 bg-gradient-to-r from-[#00FF7C] to-[#007755] m-16 rounded-full mx-auto md:mx-0"></div>
-
-        {/* Inspiration / Quote Section */}
-        <section className="my-24">
-          <div className="relative backdrop-blur-xl bg-gradient-to-br from-[#0d0f10] to-[#1a1c1f] rounded-3xl p-10 md:p16 border border-[#00FF7C]/20 shadow-2xl max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 text-white">
-
-            {/* Left: Image */}
-            <div className="flex-shrink-0 relative">
-              <img
-                src="https://wallpapercave.com/wp/wp4251194.jpg"
-                alt="Warren Buffett"
-                className="w-44 h-44 md:w-60 md:h-60 rounded-2xl object-cover shadow-lg border-4 border-[#1a1c1f]"
-              />
-
-              {/* Floating Quote Mark */}
-              <div className="absolute -top-6 -left-6 text-7xl md:text-8xl text-[#00FF7C]/15 font-serif select-none">
-                “
-              </div>
-            </div>
-
-            {/* Right: Text */}
-            <div className="text-center md:text-left max-w-2xl">
-              {/* Label */}
-              <span className="text-sm uppercase tracking-widest text-[#00FF7C] font-semibold">
-                Inspiration
-              </span>
-
-              {/* Name */}
-              <h3 className="text-3xl md:text-4xl font-bold mt-2 text-white">
-                Warren Buffett
-              </h3>
-
-              {/* Role Line */}
-              <p className="text-sm text-gray-400 mb-4">
-                Investor • Philanthropist • Mentor
-              </p>
-
-              {/* Quote */}
-              <p className="italic text-lg md:text-xl text-gray-200 leading-relaxed mb-6">
-                “The best investment you can make is in yourself.”
-              </p>
-
-              {/* Divider */}
-              <div className="w-16 h-1 bg-gradient-to-r from-[#00FF7C] to-[#007755] mb-6 rounded-full mx-auto md:mx-0"></div>
-
-              {/* Extra Line for Motivation */}
-              <p className="text-sm md:text-base text-gray-400">
-                Known as the “Oracle of Omaha”, Buffett inspires learners to build
-                wealth with patience, discipline, and clarity — exactly what Fynsd
-                stands for.
-              </p>
-            </div>
-          </div>
-        </section>
-
-
-        {/* Divider */}
-        <div className="w-6 h-1 bg-gradient-to-r from-[#00FF7C] to-[#007755]/40 m-16 rounded-full mx-auto md:mx-0"></div>
 
         {/* Coming Soon + Advertise */}
         <section className="mb-24">
@@ -287,31 +245,25 @@ export default function Home() {
           </div>
         </section>
 
-        
-              {/* Divider */}
-              <div className="w-16 h-1 bg-gradient-to-r from-[#00FF7C] to-[#007755] m-16 rounded-full mx-auto md:mx-0"></div>
-
         {/* Pricing */}
         <section className="mb-24">
-          {/* Heading */}
           <h2 className="text-3xl font-bold mb-12 text-center">
             <span className="bg-gradient-to-r from-[#FFB800] to-[#FF6B00] bg-clip-text text-transparent">
               Plans & Pricing
             </span>
           </h2>
 
-          {/* Pricing Grid */}
           <div className="grid md:grid-cols-2 gap-10">
             {/* Free Plan */}
-            <div className="backdrop-blur-lg bg-white/70 rounded-2xl p-8 border border-[#00FF7C]/20 shadow-md hover:shadow-[#00FF7C]/40 transition duration-300">
+            <div
+              onClick={handlePlanClick}
+              className="cursor-pointer backdrop-blur-lg bg-white/70 rounded-2xl p-8 border border-[#00FF7C]/20 shadow-md hover:shadow-[#00FF7C]/40 transition duration-300"
+            >
               <h3 className="text-2xl font-bold mb-4">Free Plan</h3>
               <ul className="space-y-3 text-sm text-[#2F3E46]">
                 <li className="relative flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-[#0077FF]" />
                   <span>AI Article Summaries</span>
-                  <span className="ml-2 bg-gradient-to-r from-[#FF6B00] to-[#FF3C3C] text-white text-[10px] px-2 py-0.5 rounded-full shadow">
-                    New
-                  </span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-[#00B86B]" /> Access to articles & videos
@@ -320,23 +272,17 @@ export default function Home() {
                   <CheckCircle className="w-5 h-5 text-[#00B86B]" /> Roadmaps & tools
                 </li>
                 <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-[#00B86B]" /> Practical insights
-                </li>
-                <li className="flex items-center gap-2">
                   <XCircle className="w-5 h-5 text-red-400" /> No quizzes
-                </li>
-                <li className="flex items-center gap-2">
-                  <XCircle className="w-5 h-5 text-red-400" /> No community
-                </li>
-                <li className="flex items-center gap-2">
-                  <XCircle className="w-5 h-5 text-red-400" /> Limited support
                 </li>
               </ul>
               <p className="mt-12 text-3xl font-bold text-[#007755]">₹0</p>
             </div>
 
             {/* Premium Plan */}
-            <div className="relative backdrop-blur-lg bg-gradient-to-br from-[#FFF1D6]/80 to-[#FFE8C5] rounded-2xl p-8 border border-[#FFAA00]/40 shadow-lg hover:shadow-[#FFAA00]/50 transition duration-300">
+            <div
+              onClick={handlePlanClick}
+              className="cursor-pointer relative backdrop-blur-lg bg-gradient-to-br from-[#FFF1D6]/80 to-[#FFE8C5] rounded-2xl p-8 border border-[#FFAA00]/40 shadow-lg hover:shadow-[#FFAA00]/50 transition duration-300"
+            >
               <span className="absolute -top-3 right-5 bg-[#FFAA00] text-white text-xs px-3 py-1 rounded-full font-semibold shadow-md">
                 Best Value
               </span>
@@ -344,13 +290,6 @@ export default function Home() {
                 <Crown className="w-6 h-6 text-[#FFAA00] mr-2" /> Premium Plan
               </h3>
               <ul className="space-y-3 text-sm text-[#2F3E46]">
-                <li className="relative flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-[#0077FF]" />
-                  <span>AI Article Summaries</span>
-                  <span className="ml-2 bg-gradient-to-r from-[#FF6B00] to-[#FF3C3C] text-white text-[10px] px-2 py-0.5 rounded-full shadow">
-                    New
-                  </span>
-                </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-[#FF6B00]" /> Everything in Free
                 </li>
@@ -362,15 +301,6 @@ export default function Home() {
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-[#FF6B00]" /> Book suggestions
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-[#FF6B00]" /> Priority support
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-[#FF6B00]" /> Early access to new content
-                </li>
-                <li className="flex items-center gap-2">
-                  <CheckCircle className="w-5 h-5 text-[#FF6B00]" /> Exclusive finance case studies
                 </li>
               </ul>
               <p className="mt-6 text-3xl font-bold text-[#FF6B00]">₹499/year</p>
