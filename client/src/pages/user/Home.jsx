@@ -97,8 +97,8 @@ export default function Home() {
   ];
 
   const stats = [
-    { title: "Learners", value: "12,345+" },
-    { title: "Articles", value: "678+" },
+    { title: "Learners", value: "1500+" },
+    { title: "Articles", value: "350+" },
     { title: "Tools", value: "24+" },
   ];
 
@@ -196,6 +196,67 @@ export default function Home() {
           </div>
         </section>
 
+        {/* Divider */}
+        <div className="w-16 h-1 bg-gradient-to-r from-[#00FF7C] to-[#007755] m-16 rounded-full mx-auto md:mx-0"></div>
+
+        {/* Inspiration / Quote Section */}
+        <section className="my-24">
+          <div className="relative backdrop-blur-xl bg-gradient-to-br from-[#0d0f10] to-[#1a1c1f] rounded-3xl p-10 md:p16 border border-[#00FF7C]/20 shadow-2xl max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-10 text-white">
+
+            {/* Left: Image */}
+            <div className="flex-shrink-0 relative">
+              <img
+                src="https://wallpapercave.com/wp/wp4251194.jpg"
+                alt="Warren Buffett"
+                className="w-44 h-44 md:w-60 md:h-60 rounded-2xl object-cover shadow-lg border-4 border-[#1a1c1f]"
+              />
+
+              {/* Floating Quote Mark */}
+              <div className="absolute -top-6 -left-6 text-7xl md:text-8xl text-[#00FF7C]/15 font-serif select-none">
+                “
+              </div>
+            </div>
+
+            {/* Right: Text */}
+            <div className="text-center md:text-left max-w-2xl">
+              {/* Label */}
+              <span className="text-sm uppercase tracking-widest text-[#00FF7C] font-semibold">
+                Inspiration
+              </span>
+
+              {/* Name */}
+              <h3 className="text-3xl md:text-4xl font-bold mt-2 text-white">
+                Warren Buffett
+              </h3>
+
+              {/* Role Line */}
+              <p className="text-sm text-gray-400 mb-4">
+                Investor • Philanthropist • Mentor
+              </p>
+
+              {/* Quote */}
+              <p className="italic text-lg md:text-xl text-gray-200 leading-relaxed mb-6">
+                “The best investment you can make is in yourself.”
+              </p>
+
+              {/* Divider */}
+              <div className="w-16 h-1 bg-gradient-to-r from-[#00FF7C] to-[#007755] mb-6 rounded-full mx-auto md:mx-0"></div>
+
+              {/* Extra Line for Motivation */}
+              <p className="text-sm md:text-base text-gray-400">
+                Known as the “Oracle of Omaha”, Buffett inspires learners to build
+                wealth with patience, discipline, and clarity — exactly what Fynsd
+                stands for.
+              </p>
+            </div>
+          </div>
+        </section>
+
+
+        {/* Divider */}
+        <div className="w-6 h-1 bg-gradient-to-r from-[#00FF7C] to-[#007755]/40 m-16 rounded-full mx-auto md:mx-0"></div>
+
+
         {/* Coming Soon + Advertise */}
         <section className="mb-24">
           <h2 className="text-3xl font-bold mb-12 text-center">
@@ -264,6 +325,9 @@ export default function Home() {
                 <li className="relative flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-[#0077FF]" />
                   <span>AI Article Summaries</span>
+                  <span className="ml-2 bg-gradient-to-r from-[#FF6B00] to-[#FF3C3C] text-white text-[10px] px-2 py-0.5 rounded-full shadow">
+                    New
+                  </span>
                 </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-[#00B86B]" /> Access to articles & videos
@@ -272,10 +336,20 @@ export default function Home() {
                   <CheckCircle className="w-5 h-5 text-[#00B86B]" /> Roadmaps & tools
                 </li>
                 <li className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-[#00B86B]" /> Practical insights
+                </li>
+                <li className="flex items-center gap-2">
                   <XCircle className="w-5 h-5 text-red-400" /> No quizzes
+                </li>
+                <li className="flex items-center gap-2">
+                  <XCircle className="w-5 h-5 text-red-400" /> No community
+                </li>
+                <li className="flex items-center gap-2">
+                  <XCircle className="w-5 h-5 text-red-400" /> Limited support
                 </li>
               </ul>
               <p className="mt-12 text-3xl font-bold text-[#007755]">₹0</p>
+
             </div>
 
             {/* Premium Plan */}
@@ -290,6 +364,13 @@ export default function Home() {
                 <Crown className="w-6 h-6 text-[#FFAA00] mr-2" /> Premium Plan
               </h3>
               <ul className="space-y-3 text-sm text-[#2F3E46]">
+                <li className="relative flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-[#0077FF]" />
+                  <span>AI Article Summaries</span>
+                  <span className="ml-2 bg-gradient-to-r from-[#FF6B00] to-[#FF3C3C] text-white text-[10px] px-2 py-0.5 rounded-full shadow">
+                    New
+                  </span>
+                </li>
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-[#FF6B00]" /> Everything in Free
                 </li>
@@ -302,8 +383,18 @@ export default function Home() {
                 <li className="flex items-center gap-2">
                   <CheckCircle className="w-5 h-5 text-[#FF6B00]" /> Book suggestions
                 </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-[#FF6B00]" /> Priority support
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-[#FF6B00]" /> Early access to new content
+                </li>
+                <li className="flex items-center gap-2">
+                  <CheckCircle className="w-5 h-5 text-[#FF6B00]" /> Exclusive finance case studies
+                </li>
               </ul>
               <p className="mt-6 text-3xl font-bold text-[#FF6B00]">₹499/year</p>
+
             </div>
           </div>
         </section>
@@ -311,18 +402,19 @@ export default function Home() {
         {/* CTA */}
         <section className="text-center mt-16 pb-20">
           <h2 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-[#00FF7C] to-[#007755] bg-clip-text text-transparent">
-            Start Your Finance Journey Today
+            Start Exploring Finance with Clarity
           </h2>
           <p className="text-[#2F3E46] mb-6">
-            Join thousands of learners building strong money skills.
+            Read simple, practical articles to build money confidence and better decisions.
           </p>
           <Link
             to="/knowledge"
             className="px-8 py-4 bg-[#00FF7C] text-[#09332C] hover:bg-[#00e671] rounded-2xl text-lg font-semibold shadow-lg hover:shadow-[#00FF7C]/40 transition"
           >
-            Explore Now
+            Explore Articles
           </Link>
         </section>
+
       </div>
     </div>
   );
