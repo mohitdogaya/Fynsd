@@ -4,9 +4,10 @@ import { motion } from "framer-motion";
 import { useUser } from "../../context/UserContext";  // ✅
 import api from "../../lib/api";
 import { Search, BookOpen, Video, Star, Eye } from "lucide-react";
+import { toast } from "react-hot-toast";
 
 export default function KnowledgeList() {
-  const { user } = useUser();  
+  const { user } = useUser();
 
   const [items, setItems] = useState([]);
   const [q, setQ] = useState("");
@@ -18,7 +19,7 @@ export default function KnowledgeList() {
   const fetchData = async () => {
     try {
       const { data } = await api.get("/contents", {
-        params: { q, type, level, page, limit: 10 },
+        params: { q, type, level, page, limit: 12 },
       });
       setItems(data.items || []);
       setTotal(data.total || 0);
@@ -104,11 +105,18 @@ export default function KnowledgeList() {
         {items.map((it) => (
           <motion.a
             key={it._id}
-            href={it.isPremium && !user?.isPremium ? "#" : `/knowledge/${it.slug}`}
+            href={user ? `/knowledge/${it.slug}` : "#"}  // agar login nahi hai to link disable
             onClick={(e) => {
-              if (it.isPremium && !(user?.isPremium === true)) {
+              if (!user) {
                 e.preventDefault();
-                alert("Upgrade to premium to access this content");
+                toast.error("Please login to read this article");
+                return;
+              }
+              if (it.isPremium && !user?.isPremium) {
+                e.preventDefault();
+                toast("Upgrade to premium to access this content ⭐", {
+                  icon: "🔒",
+                });
               }
             }}
             whileHover={{ y: -6, scale: 1 }}
@@ -130,9 +138,8 @@ export default function KnowledgeList() {
             <div className="flex gap-2 mt-4 items-center text-xs font-semibold">
               {it.isPremium != null && (
                 <span
-                  className={`flex items-center gap-1 px-2 py-0.5 rounded-full ${
-                    it.isPremium ? "bg-[#007755]/20 text-[#007755]" : "bg-[#00FF7C]/20 text-[#09332C] backdrop-blur-sm"
-                  }`}
+                  className={`flex items-center gap-1 px-2 py-0.5 rounded-full ${it.isPremium ? "bg-[#007755]/20 text-[#007755]" : "bg-[#00FF7C]/20 text-[#09332C] backdrop-blur-sm"
+                    }`}
                 >
                   <Star size={12} />
                   {it.isPremium ? "Premium" : "Free"}

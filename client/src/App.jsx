@@ -71,7 +71,15 @@ export default function App() {
         }
       >
         <Route path="/knowledge" element={<><KnowledgeList /><Footer /></>} />
-        <Route path="/knowledge/:slug" element={<><KnowledgeDetail /><Footer /></>} />
+        <Route
+          path="/knowledge/:slug"
+          element={
+            <ProtectedRoute roleRequired="user">
+              <KnowledgeDetail />
+              <Footer />
+            </ProtectedRoute>
+          }
+        />
 
         <Route
           path="/user/profile"
@@ -89,7 +97,15 @@ export default function App() {
             </ProtectedRoute>
           }
         />
-        <Route path="/roadmap" element={<><RoadmapPage /><Footer /></>} />
+        <Route
+          path="/roadmap"
+          element={
+            <ProtectedRoute roleRequired="user">
+              <RoadmapPage />
+              <Footer />
+            </ProtectedRoute>
+          }
+        />
       </Route>
 
       {/* ===================== ADMIN ROUTES ===================== */}
