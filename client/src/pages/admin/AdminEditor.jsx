@@ -18,7 +18,7 @@ export default function AdminEditor() {
     topics: "",
     body: "",
     status: "draft",
-    mediaUrl: "",
+    // mediaUrl: "",
     sourceUrl: "",
     isPremium: false,
     views: 0,
@@ -37,6 +37,7 @@ export default function AdminEditor() {
               ? data.topics.join(", ")
               : data.topics || "",
             type: Array.isArray(data.type) ? data.type : [data.type],
+            sourceUrl: data.sourceUrl || "", // ✅ force safe value
           }));
         } catch (err) {
           console.error("Failed to load content:", err);
@@ -47,18 +48,19 @@ export default function AdminEditor() {
 
   const save = async () => {
     if (form.type.includes("video")) {
-      if (!form.sourceUrl) {
+      if (!form.sourceUrl?.trim()) {
         toast.error("Please provide a video URL before saving.");
         return;
       }
 
       try {
-        new URL(form.sourceUrl); // ✅ built-in URL validator
+        new URL(form.sourceUrl);
       } catch {
         toast.error("Invalid video URL. Please enter a valid link.");
         return;
       }
     }
+
 
     const payload = {
       ...form,
@@ -84,14 +86,14 @@ export default function AdminEditor() {
   };
 
 
-  const uploadFile = async (file) => {
-    const fd = new FormData();
-    fd.append("file", file);
-    const { data } = await api.post("/admin/upload", fd, {
-      headers: { "Content-Type": "multipart/form-data" },
-    });
-    setForm((f) => ({ ...f, mediaUrl: data.url }));
-  };
+  // const uploadFile = async (file) => {
+  //   const fd = new FormData();
+  //   fd.append("file", file);
+  //   const { data } = await api.post("/admin/upload", fd, {
+  //     headers: { "Content-Type": "multipart/form-data" },
+  //   });
+  //   setForm((f) => ({ ...f, mediaUrl: data.url }));
+  // };
 
   const toggleType = (val) => {
     setForm((prev) => {
@@ -232,11 +234,11 @@ export default function AdminEditor() {
         {/* Media / Video */}
         {form.type.includes("video") && (
           <div className="space-y-3">
-            <input
+            {/* <input
               type="file"
               className="text-gray-900"
               onChange={(e) => uploadFile(e.target.files[0])}
-            />
+            /> */}
             <input
               className="bg-white/70 border border-gray-300 rounded-xl px-5 py-3 w-full placeholder-gray-500 text-gray-900 focus:ring-2 focus:ring-black"
               placeholder="Source URL (YouTube embed or external link)"
@@ -245,11 +247,11 @@ export default function AdminEditor() {
                 setForm({ ...form, sourceUrl: e.target.value })
               }
             />
-            {form.mediaUrl && (
+            {/* {form.mediaUrl && (
               <div className="text-sm text-green-600 font-medium mt-1">
                 ✅ Uploaded: {form.mediaUrl}
               </div>
-            )}
+            )} */}
           </div>
         )}
 
