@@ -42,7 +42,7 @@ export default function KnowledgeList() {
         default: icon = null;
       }
       return (
-        <span key={idx} className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-[#F3F3F2]/50 backdrop-blur-sm">
+        <span key={idx} className="flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold bg-[#F3F3F2]/50 backdrop-blur-sm shadow">
           {icon} {t}
         </span>
       );

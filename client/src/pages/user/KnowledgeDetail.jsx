@@ -13,12 +13,14 @@ import {
   PlayCircle,
   ArrowLeft,
   Star,
+  Award,
   Eye,
   ThumbsUp,
   MessageSquare,
   Trash2,
   CornerDownRight,
   Edit,
+  Edit2,
   Check,
   X,
   Tags,
@@ -38,7 +40,7 @@ export default function KnowledgeDetail() {
   const [loadingSummary, setLoadingSummary] = useState(false);
   const [showAISummary, setShowAISummary] = useState(false);
   const [generatedOnce, setGeneratedOnce] = useState(false);
-  const { user } = useUser();  
+  const { user } = useUser();
   const [visibleCount, setVisibleCount] = useState(15);
 
 
@@ -380,8 +382,8 @@ export default function KnowledgeDetail() {
             <button
               onClick={handleLike}
               className={`flex items-center gap-1 px-3 py-1 rounded-full transition ${liked
-                  ? "bg-[#00FF7C] text-[#09332C] shadow-md"
-                  : "bg-[#E7E7E3] text-[#09332C] hover:bg-[#d1d1d1]"
+                ? "bg-[#00FF7C] text-[#09332C] shadow-md"
+                : "bg-[#E7E7E3] text-[#09332C] hover:bg-[#d1d1d1]"
                 }`}
             >
               <ThumbsUp
@@ -400,7 +402,17 @@ export default function KnowledgeDetail() {
                   : "bg-[#00FF7C]/40 text-[#09332C]"
                   }`}
               >
-                <Star size={14} /> {doc.isPremium ? "Premium" : "Free"}
+                {doc.isPremium ? (
+                  <>
+                    <Award size={12} />
+                    Premium
+                  </>
+                ) : (
+                  <>
+                    <CircleStar size={12} />
+                    Free
+                  </>
+                )}
               </span>
             )}
           </div>
@@ -411,6 +423,13 @@ export default function KnowledgeDetail() {
           <h2 className="text-lg font-semibold mb-4 flex items-center gap-2">
             <MessageSquare size={18} /> Comments
           </h2>
+
+          <div className="flex items-center gap-2 mb-4 bg-[#f0fff4] p-3 rounded-lg border border-[#00FF7C]/40">
+            <Edit2 size={12} className="text-[#00FF7C]" />
+            <p className="text-sm text-[#2F3E46]">
+              Have a suggestion or feedback? Let us know what you think about this article!
+            </p>
+          </div>
 
           {/* Add comment */}
           <div className="flex gap-2 mb-4">

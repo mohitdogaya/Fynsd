@@ -1,5 +1,6 @@
 // frontend/src/pages/RoadmapPage.jsx
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   Search,
@@ -13,6 +14,7 @@ import {
 function RoadmapPage() {
   const [roadmaps, setRoadmaps] = useState([]);
   const [selected, setSelected] = useState(null);
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -29,7 +31,7 @@ function RoadmapPage() {
     fetchRoadmaps();
   }, []);
 
-  // Filter logic (only search)
+  // search
   const filtered = roadmaps.filter((rm) =>
     rm.title.toLowerCase().includes(search.toLowerCase())
   );
@@ -80,11 +82,10 @@ function RoadmapPage() {
                   <button
                     key={rm._id}
                     onClick={() => setSelected(rm)}
-                    className={`w-full text-left px-4 py-3 rounded-xl font-semibold transition flex items-center gap-2 ${
-                      selected?._id === rm._id
+                    className={`w-full text-left px-4 py-3 rounded-xl font-semibold transition flex items-center gap-2 ${selected?._id === rm._id
                         ? "bg-[#00FF7C]/20 text-[#007755] border border-[#00FF7C]"
                         : "bg-white/60 hover:bg-white border border-[#E7E7E3]"
-                    }`}
+                      }`}
                   >
                     <BookOpen size={16} /> {rm.title}
                   </button>
@@ -156,7 +157,7 @@ function RoadmapPage() {
 
                   {/* Engagement Section */}
                   <div className="flex items-center justify-between mt-10 pt-6 border-t border-[#E7E7E3]">
-                    <div className="flex items-center gap-4">
+                    {/* <div className="flex items-center gap-4">
                       <button className="flex items-center gap-1 text-[#007755] hover:text-[#09332C] transition text-sm font-medium">
                         <ThumbsUp size={16} /> Like
                       </button>
@@ -166,8 +167,11 @@ function RoadmapPage() {
                       <button className="flex items-center gap-1 text-[#007755] hover:text-[#09332C] transition text-sm font-medium">
                         <Share2 size={16} /> Share
                       </button>
-                    </div>
-                    <button className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#00FF7C] to-[#007755] text-white text-sm font-semibold shadow-md hover:scale-105 transition">
+                    </div> */}
+                    <button
+                      onClick={() => navigate("/contact")}
+                      className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gradient-to-r from-[#00FF7C] to-[#007755] text-white text-sm font-semibold shadow-md hover:scale-105 transition"
+                    >
                       <Send size={16} /> Suggest a Roadmap
                     </button>
                   </div>
