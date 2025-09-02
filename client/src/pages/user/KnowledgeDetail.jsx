@@ -13,6 +13,7 @@ import {
   PlayCircle,
   ArrowLeft,
   Star,
+  CircleStar,
   Award,
   Eye,
   ThumbsUp,

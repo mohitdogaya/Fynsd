@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useUser } from "../../context/UserContext";  // ✅
 import api from "../../lib/api";
-import { Search, BookOpen, Video, Star, Eye, Award, Lightbulb, Map } from "lucide-react";
+import { Search, BookOpen, Video, Star, Eye, Award, CircleStar, Lightbulb, Map } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 export default function KnowledgeList() {
@@ -159,7 +159,7 @@ export default function KnowledgeList() {
                     </>
                   ) : (
                     <>
-                      <Star size={12} />
+                      <CircleStar size={12} />
                       Free
                     </>
                   )}
