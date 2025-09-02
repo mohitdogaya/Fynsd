@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { useUser } from "../../context/UserContext";  // ✅
 import api from "../../lib/api";
-import { Search, BookOpen, Video, Star, Eye } from "lucide-react";
+import { Search, BookOpen, Video, Star, Eye, Award, CircleStar, Lightbulb, Map } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 export default function KnowledgeList() {
@@ -121,7 +121,11 @@ export default function KnowledgeList() {
             }}
             whileHover={{ y: -6, scale: 1 }}
             transition={{ type: "spring", stiffness: 100 }}
-            className="bg-white/50 backdrop-blur-xl border border-white/40 rounded-2xl shadow-lg hover:shadow-[#00FF7C]/40 p-6 flex flex-col justify-between hover:border-[#00FF7C]"
+            className={`rounded-2xl shadow-lg p-6 flex flex-col justify-between border backdrop-blur-xl hover:shadow-[#00FF7C]/40 hover:border-[#00FF7C] 
+                ${isPremium
+                  ? "bg-gradient-to-br from-[#ffffff]/60 to-[#DFFFEF]/70 border-[#007755]/30"
+                  : "bg-white/50 border-white/40"}`
+              }
           >
             <div className="flex flex-wrap gap-2 items-center text-xs font-semibold">
               {renderTypes(it.type)}
@@ -133,16 +137,33 @@ export default function KnowledgeList() {
             </div>
 
             <div className="font-bold text-lg text-[#09332C] mt-3 leading-snug">{it.title}</div>
-            <div className="text-[#2F3E46] text-sm line-clamp-3 mt-2">{it.summary || it.body}</div>
 
-            <div className="flex gap-2 mt-4 items-center text-xs font-semibold">
+            <div className="text-[#2F3E46] text-xs line-clamp-3 mt-2">{it.summary || it.body}</div>
+
+            {/* Premium / Free line separator */}
+            <div className={`mt-5 mb-2 h-0.25 rounded-full bg-[#00FF7C]/40`} />
+
+            <div className="flex gap-2 mt-1 items-center justify-between text-xs font-semibold">
               {it.isPremium != null && (
                 <span
-                  className={`flex items-center gap-1 px-2 py-0.5 rounded-full ${it.isPremium ? "bg-[#007755]/20 text-[#007755]" : "bg-[#00FF7C]/20 text-[#09332C] backdrop-blur-sm"
+                  className={`flex items-center gap-1 px-2 py-0.5 rounded-full ${isPremium
+                    ?
+                    "bg-[#FFD700]/20 text-[#B8860B]"
+                    :
+                    "bg-[#00FF7C]/20 text-[#09332C] backdrop-blur-sm"
                     }`}
                 >
-                  <Star size={12} />
-                  {it.isPremium ? "Premium" : "Free"}
+                  {it.isPremium ? (
+                    <>
+                      <Award size={12} />
+                      Premium
+                    </>
+                  ) : (
+                    <>
+                      <CircleStar size={12} />
+                      Free
+                    </>
+                  )}
                 </span>
               )}
               <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#E7E7E3]/60 backdrop-blur-sm text-[#09332C]">
@@ -174,6 +195,45 @@ export default function KnowledgeList() {
           </button>
         </div>
       </div>
+
+       {/* Engagement Section */}
+      <div className="relative z-10 max-w-5xl mx-auto mt-12 mb-12 px-4">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="grid md:grid-cols-2 gap-6"
+        >
+          {/* Quick Tip Card */}
+          <div className="p-6 rounded-2xl bg-gradient-to-br from-[#F9FAFB] to-[#EFF6FF] shadow-md border border-gray-200">
+            <div className="flex items-center gap-2 mb-3">
+              <Lightbulb size={18} className="text-[#007755]" />
+              <h3 className="text-lg font-semibold text-[#09332C]">Finance Quick Tip</h3>
+            </div>
+            <p className="text-sm text-[#2F3E46] leading-relaxed">
+              Saving just ₹100 daily at 10% annual return can grow to over ₹18 Lakhs in 20 years.
+            </p>
+          </div>
+
+          {/* Roadmaps CTA Card */}
+          <div className="p-6 rounded-2xl bg-gradient-to-br from-[#ECFDF5] to-[#F3F3F2] shadow-md border border-gray-200 text-center">
+            <div className="flex items-center justify-center gap-2 mb-3">
+              <Map size={18} className="text-[#00AA55]" />
+              <h3 className="text-lg font-semibold text-[#09332C]">Explore Roadmaps</h3>
+            </div>
+            <p className="text-sm text-[#2F3E46] leading-relaxed mb-4">
+              Structured paths to master finance concepts step by step.
+            </p>
+            <a
+              href="/roadmap"
+              className="inline-block px-4 py-2 rounded-xl bg-[#00FF7C] text-[#09332C] font-medium shadow hover:scale-105 transition"
+            >
+              View Roadmaps
+            </a>
+          </div>
+        </motion.div>
+      </div>
+
     </div>
   );
 }

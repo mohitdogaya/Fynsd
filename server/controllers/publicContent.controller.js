@@ -4,7 +4,7 @@ import Content from "../models/Content.js";
 // ⇝ List Contents
 export const listContents = async (req, res) => {
   try {
-    const { type, level, q, page = 1, limit = 10 } = req.query;
+    const { type, level, q, page = 1, limit = 12 } = req.query;
     const filter = { status: "published" };
 
     const userId = req.user?.userId || null;
