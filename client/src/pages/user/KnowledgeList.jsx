@@ -145,7 +145,7 @@ export default function KnowledgeList() {
             <div className="flex gap-2 mt-1 items-center justify-between text-xs font-semibold">
               {it.isPremium != null && (
                 <span
-                  className={`flex items-center gap-1 px-2 py-0.5 rounded-full ${isPremium
+                  className={`flex items-center gap-1 px-2 py-0.5 rounded-full ${it.isPremium
                     ?
                     "bg-[#FFD700]/20 text-[#B8860B]"
                     :
