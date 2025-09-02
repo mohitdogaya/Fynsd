@@ -123,9 +123,8 @@ export default function KnowledgeList() {
             transition={{ type: "spring", stiffness: 100 }}
             className={`rounded-2xl shadow-lg p-6 flex flex-col justify-between border backdrop-blur-xl hover:shadow-[#00FF7C]/40 hover:border-[#00FF7C] 
                 ${isPremium
-                  ? "bg-gradient-to-br from-[#ffffff]/60 to-[#DFFFEF]/70 border-[#007755]/30"
-                  : "bg-white/50 border-white/40"}`
-              }
+                  ? "bg-gradient-to-br from-[#ffffff]/60 to-[#FFF8E1] border-[#FFD700]/20"
+                  : "bg-white/50 border-white/40"}`}
           >
             <div className="flex flex-wrap gap-2 items-center text-xs font-semibold">
               {renderTypes(it.type)}
