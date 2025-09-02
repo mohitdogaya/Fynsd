@@ -33,7 +33,7 @@ export default function Contact() {
             </div>
             <div className="flex items-center gap-4">
               <Phone className="text-[#007755]" />
-              <span className="text-[#2F3E46]/80">+91 98765 43210</span>
+              <span className="text-[#2F3E46]/80">+91 62685 41185</span>
             </div>
             <div className="flex items-center gap-4">
               <MapPin className="text-[#007755]" />
