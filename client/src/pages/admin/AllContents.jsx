@@ -101,21 +101,21 @@ export default function AllContents() {
             contents.map((it) => (
               <div
                 key={it._id}
-                className="group bg-white border border-teal-100 rounded-2xl shadow-md hover:shadow-lg hover:-translate-y-1 transition p-5 flex flex-col justify-between"
+                className="group bg-white border border-gray-100 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-1 hover:scale-[1.01] transition-all duration-300 p-5 flex flex-col justify-between"
               >
                 <div>
                   {/* Title */}
-                  <h3 className="font-bold text-lg text-[#2F3E46] line-clamp-2">
+                  <h3 className="font-semibold text-lg text-[#2F3E46] line-clamp-2 group-hover:text-[#1ABC9C] transition">
                     {it.title}
                   </h3>
 
                   {/* Top badges */}
-                  <div className="flex gap-2 mt-2 flex-wrap items-center pb-2 text-xs font-semibold">
+                  <div className="flex gap-2 mt-3 flex-wrap items-center pb-2 text-xs font-medium">
                     {Array.isArray(it.type) &&
                       it.type.map((t, idx) => (
                         <span
                           key={idx}
-                          className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#E0FFF9] text-[#2F3E46]"
+                          className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#E0FFF9] text-[#2F3E46] border border-teal-100"
                         >
                           {t === "article" && (
                             <FileText size={14} className="text-indigo-500" />
@@ -128,17 +128,17 @@ export default function AllContents() {
                       ))}
 
                     {it.level && (
-                      <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-[#E0FFF9] text-[#2F3E46]">
+                      <span className="px-2 py-0.5 rounded-full bg-blue-50 text-blue-600 border border-blue-100">
                         {it.level}
                       </span>
                     )}
 
                     {/* Status badge */}
                     <span
-                      className={`flex items-center gap-1 px-2 py-0.5 rounded-full ${
+                      className={`px-2 py-0.5 rounded-full border ${
                         it.status === "published"
-                          ? "bg-green-100 text-green-600"
-                          : "bg-yellow-100 text-yellow-600"
+                          ? "bg-green-50 text-green-600 border-green-200"
+                          : "bg-yellow-50 text-yellow-600 border-yellow-200"
                       }`}
                     >
                       {it.status === "published" ? "Published" : "Draft"}
@@ -153,20 +153,22 @@ export default function AllContents() {
                   </p>
                 </div>
 
+                
+
                 {/* Bottom badges + Actions */}
-                <div className="mt-4 flex justify-between items-center">
-                  <div className="flex gap-2 items-center text-xs font-semibold">
+                <div className="mt-5 flex justify-between items-center">
+                  <div className="flex gap-2 items-center text-xs font-medium">
                     <span
-                      className={`flex items-center gap-1 px-2 py-0.5 rounded-full ${
+                      className={`flex items-center gap-1 px-2 py-0.5 rounded-full border ${
                         it.isPremium
-                          ? "bg-purple-100 text-purple-600"
-                          : "bg-blue-100 text-blue-600"
+                          ? "bg-purple-50 text-purple-600 border-purple-200"
+                          : "bg-blue-50 text-blue-600 border-blue-200"
                       }`}
                     >
                       <Star size={12} />
                       {it.isPremium ? "Premium" : "Free"}
                     </span>
-                    <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-gray-100 text-gray-600">
+                    <span className="flex items-center gap-1 px-2 py-0.5 rounded-full bg-gray-50 text-gray-600 border border-gray-200">
                       <Eye size={12} />
                       {it.views || 0}
                     </span>
